@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='measurator',
     version='0.1',
-    url='https://ahitrin.github.io',
+    url='https://github.com/ahitrin/measurator-proto',
     license='MIT',
     author='Andrey Hitrin',
     author_email='andrey.hitrin@gmail.com',
