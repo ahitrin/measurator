@@ -18,10 +18,16 @@ def run_main():
                 not_yet.append(row)
     # evaluate measurements
     now = datetime.datetime.now()
-    for row in not_yet:
+    for row in list(not_yet):
         evaluate_time = datetime.datetime(*(time.strptime(row[1], '%Y-%m-%d %H:%M:%S')[:6]))
         if evaluate_time < now:
-            print "Time to evaluate:", row[2]
+            print "Time to evaluate:", row[2], "\n Is it true?"
+            user_input = raw_input()
+            if user_input.capitalize().startswith('Y'):
+                succeeds = succeeds + 1
+            else:
+                fails = fails + 1
+            not_yet.remove(row)
     # print total statistics
     total_done = fails + succeeds
     if total_done > 0:
