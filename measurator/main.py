@@ -1,8 +1,8 @@
 import argparse, csv, datetime, time
 
 def run_main():
-    fails = 0
-    succeeds = 0
+    fails = list()
+    succeeds = list()
     not_yet = list()
     path = file_path()
     # read file
@@ -11,9 +11,9 @@ def run_main():
         for row in reader:
             status = row[0]
             if status == 'F':
-                fails = fails + 1
+                fails.append(row)
             elif status == 'S':
-                succeeds = succeeds + 1
+                succeeds.append(row)
             else:
                 not_yet.append(row)
     # evaluate measurements
@@ -24,14 +24,14 @@ def run_main():
             print "Time to evaluate:", row[2], "\n Is it true?"
             user_input = raw_input()
             if user_input.capitalize().startswith('Y'):
-                succeeds = succeeds + 1
+                succeeds.append(row)
             else:
-                fails = fails + 1
+                fails .append(row)
             not_yet.remove(row)
     # print total statistics
-    total_done = fails + succeeds
+    total_done = len(fails) + len(succeeds)
     if total_done > 0:
-        percentage = '%d%%' % (float(100 * succeeds) / float(total_done))
+        percentage = '%d%%' % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = 'N/A'
     print "Succesful predictions:", percentage, ", not done yet:", len(not_yet)
