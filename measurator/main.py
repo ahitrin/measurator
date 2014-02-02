@@ -24,8 +24,10 @@ def run_main():
             print "Time to evaluate:", row[2], "\n Is it true?"
             user_input = raw_input()
             if user_input.capitalize().startswith('Y'):
+                row[0] = 'S'
                 succeeds.append(row)
             else:
+                row[0] = 'F'
                 fails .append(row)
             not_yet.remove(row)
     # print total statistics
@@ -34,6 +36,14 @@ def run_main():
         percentage = '%d%%' % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = 'N/A'
+    all_rows = list()
+    all_rows.extend(fails)
+    all_rows.extend(succeeds)
+    all_rows.extend(not_yet)
+    with open(path, 'wt') as f:
+        writer = csv.writer(f)
+        for row in all_rows:
+            writer.writerow(row)
     print "Succesful predictions:", percentage, ", not done yet:", len(not_yet)
 
 def file_path():
