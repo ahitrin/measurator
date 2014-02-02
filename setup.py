@@ -9,6 +9,7 @@ setup(
     author_email='andrey.hitrin@gmail.com',
     description='Simple command-line app aimed to record and evaluate measures',
     packages=['measurator'],
+    scripts=['bin/measure'],
     platform='any',
     classifiers = [
         'Programming Language :: Python',
