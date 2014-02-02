@@ -30,12 +30,7 @@ def run_main():
                 row[0] = 'F'
                 fails .append(row)
             not_yet.remove(row)
-    # print total statistics
-    total_done = len(fails) + len(succeeds)
-    if total_done > 0:
-        percentage = '%d%%' % (float(100 * len(succeeds)) / float(total_done))
-    else:
-        percentage = 'N/A'
+    # overwrite predictions file
     all_rows = list()
     all_rows.extend(fails)
     all_rows.extend(succeeds)
@@ -44,6 +39,12 @@ def run_main():
         writer = csv.writer(f)
         for row in all_rows:
             writer.writerow(row)
+    # print total statistics
+    total_done = len(fails) + len(succeeds)
+    if total_done > 0:
+        percentage = '%d%%' % (float(100 * len(succeeds)) / float(total_done))
+    else:
+        percentage = 'N/A'
     print "Succesful predictions:", percentage, ", not done yet:", len(not_yet)
 
 def file_path():
