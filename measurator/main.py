@@ -1,4 +1,13 @@
-import argparse, csv, datetime, time
+import argparse, csv, datetime, time, sys, re, fileinput
+
+def migrate():
+    migrate_0_1_1_to_0_1_2()
+
+def migrate_0_1_1_to_0_1_2():
+    path = file_path()
+    pattern = re.compile('(\d\d:\d\d):\d\d')
+    for line in fileinput.input(path, inplace=1):
+        sys.stdout.write(pattern.sub('\g<1>', line))
 
 def run_main():
     fails = list()
@@ -19,7 +28,7 @@ def run_main():
     # evaluate measurements
     now = datetime.datetime.now()
     for row in list(not_yet):
-        evaluate_time = datetime.datetime(*(time.strptime(row[1], '%Y-%m-%d %H:%M:%S')[:6]))
+        evaluate_time = datetime.datetime(*(time.strptime(row[1], '%Y-%m-%d %H:%M')[:6]))
         if evaluate_time < now:
             print "Time to evaluate:", row[2], "\n Is it true?"
             user_input = raw_input()
@@ -43,7 +52,7 @@ def run_main():
     if user_input.capitalize().startswith('Y'):
         print "Prediction:"
         prediction = raw_input()
-        print "When to evaluate (YYYY-mm-dd HH:MM:SS):"
+        print "When to evaluate (YYYY-mm-dd HH:MM):"
         eval_time = raw_input()
         not_yet.append(['N', eval_time, prediction])
     # overwrite predictions file
