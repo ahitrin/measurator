@@ -1,21 +1,11 @@
 import argparse
 import csv
 import datetime
-import fileinput
-import re
-import sys
 import time
 
 
 def migrate():
-    migrate_0_1_1_to_0_1_2()
-
-
-def migrate_0_1_1_to_0_1_2():
-    path = file_path()
-    pattern = re.compile("(\\d\\d:\\d\\d):\\d\\d")
-    for line in fileinput.input(path, inplace=1):
-        sys.stdout.write(pattern.sub("\\g<1>", line))
+    pass
 
 
 def run_main():
