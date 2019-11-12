@@ -1,4 +1,10 @@
-import argparse, csv, datetime, time, sys, re, fileinput
+import argparse
+import csv
+import datetime
+import fileinput
+import re
+import sys
+import time
 
 
 def migrate():
@@ -33,8 +39,8 @@ def run_main():
     for row in list(not_yet):
         evaluate_time = datetime.datetime(*(time.strptime(row[1], '%Y-%m-%d %H:%M')[:6]))
         if evaluate_time < now:
-            print "Time to evaluate:", row[2], "\n Is it true?"
-            user_input = raw_input()
+            print("Time to evaluate:", row[2], "\n Is it true?")
+            user_input = input()
             if user_input.capitalize().startswith('Y'):
                 row[0] = 'S'
                 succeeds.append(row)
@@ -48,15 +54,15 @@ def run_main():
         percentage = '%d%%' % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = 'N/A'
-    print "Succesful predictions:", percentage, ", not done yet:", len(not_yet)
+    print("Succesful predictions:", percentage, ", not done yet:", len(not_yet))
     # add another prediction when needed
-    print "Add another prediction? Y/N"
-    user_input = raw_input()
+    print("Add another prediction? Y/N")
+    user_input = input()
     if user_input.capitalize().startswith('Y'):
-        print "Prediction:"
-        prediction = raw_input()
-        print "When to evaluate (YYYY-mm-dd HH:MM):"
-        eval_time = raw_input()
+        print("Prediction:")
+        prediction = input()
+        print("When to evaluate (YYYY-mm-dd HH:MM):")
+        eval_time = input()
         not_yet.append(['N', eval_time, prediction])
     # overwrite predictions file
     all_rows = list()

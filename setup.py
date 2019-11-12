@@ -10,8 +10,8 @@ setup(
     description='Simple command-line app aimed to record and evaluate measures',
     packages=find_packages(),
     scripts=['bin/measure'],
-    classifiers = [
+    classifiers=[
         'Programming Language :: Python',
         'Development Status :: 1 - Alpha',
-        ],
+    ],
 )

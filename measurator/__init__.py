@@ -1,1 +1,1 @@
-from main import *
+from measurator.main import *
