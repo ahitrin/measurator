@@ -1,13 +1,16 @@
 import argparse, csv, datetime, time, sys, re, fileinput
 
+
 def migrate():
     migrate_0_1_1_to_0_1_2()
+
 
 def migrate_0_1_1_to_0_1_2():
     path = file_path()
     pattern = re.compile('(\d\d:\d\d):\d\d')
     for line in fileinput.input(path, inplace=1):
         sys.stdout.write(pattern.sub('\g<1>', line))
+
 
 def run_main():
     fails = list()
@@ -37,7 +40,7 @@ def run_main():
                 succeeds.append(row)
             else:
                 row[0] = 'F'
-                fails .append(row)
+                fails.append(row)
             not_yet.remove(row)
     # print total statistics
     total_done = len(fails) + len(succeeds)
@@ -64,6 +67,7 @@ def run_main():
         writer = csv.writer(f)
         for row in all_rows:
             writer.writerow(row)
+
 
 def file_path():
     parser = argparse.ArgumentParser()
