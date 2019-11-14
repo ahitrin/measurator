@@ -45,7 +45,7 @@ def run_main():
         prediction = input()
         print("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = input()
-        not_yet.append(["N", eval_time, prediction])
+        not_yet.append(("N", eval_time, prediction))
     # overwrite predictions file
     all_rows = list()
     all_rows.extend(fails)
