@@ -13,22 +13,23 @@ def run_main():
     not_yet, succeeds, fails = _read_file(path)
     # evaluate measurements
     now = datetime.datetime.now()
-    for row in list(not_yet):
-        evaluate_time = datetime.datetime(*(time.strptime(row[1], "%Y-%m-%d %H:%M")[:6]))
+    delayed = list()
+    for status, timestamp, text in not_yet:
+        evaluate_time = datetime.datetime(*(time.strptime(timestamp, "%Y-%m-%d %H:%M")[:6]))
         if evaluate_time < now:
-            print("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(row[2]))
+            print("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(text))
             user_input = input().capitalize()
             if user_input.startswith("Y"):
-                row[0] = "S"
-                succeeds.append(row)
+                status = "S"
+                succeeds.append((status, timestamp, text))
             elif user_input.startswith("D"):
                 print("When to evaluate (YYYY-mm-dd HH:MM):")
                 eval_time = input()
-                not_yet.append(["N", eval_time, row[2]])
+                delayed.append(("N", eval_time, text))
             else:
-                row[0] = "F"
-                fails.append(row)
-            not_yet.remove(row)
+                status = "F"
+                fails.append((status, timestamp, text))
+    not_yet = delayed
     # print total statistics
     total_done = len(fails) + len(succeeds)
     if total_done > 0:
