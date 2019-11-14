@@ -29,6 +29,8 @@ def run_main():
             else:
                 status = "F"
                 fails.append((status, timestamp, text))
+        else:
+            delayed.append((status, timestamp, text))
     not_yet = delayed
     # print total statistics
     total_done = len(fails) + len(succeeds)
