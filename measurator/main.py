@@ -29,11 +29,15 @@ def run_main():
     for row in list(not_yet):
         evaluate_time = datetime.datetime(*(time.strptime(row[1], "%Y-%m-%d %H:%M")[:6]))
         if evaluate_time < now:
-            print("Time to evaluate:", row[2], "\n Is it true?")
-            user_input = input()
-            if user_input.capitalize().startswith("Y"):
+            print("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(row[2]))
+            user_input = input().capitalize()
+            if user_input.startswith("Y"):
                 row[0] = "S"
                 succeeds.append(row)
+            elif user_input.startswith("D"):
+                print("When to evaluate (YYYY-mm-dd HH:MM):")
+                eval_time = input()
+                not_yet.append(["N", eval_time, row[2]])
             else:
                 row[0] = "F"
                 fails.append(row)
