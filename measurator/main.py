@@ -9,7 +9,7 @@ def migrate():
 
 
 def run_main():
-    path = file_path()
+    path = _file_path()
     not_yet, succeeds, fails = _read_file(path)
     # evaluate measurements
     now = datetime.datetime.now()
@@ -76,7 +76,7 @@ def _read_file(path):
     return not_yet, succeeds, fails
 
 
-def file_path():
+def _file_path():
     parser = argparse.ArgumentParser()
     parser.add_argument("path")
     args = parser.parse_args()
