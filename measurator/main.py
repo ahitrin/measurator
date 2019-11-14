@@ -9,21 +9,8 @@ def migrate():
 
 
 def run_main():
-    fails = list()
-    succeeds = list()
-    not_yet = list()
     path = file_path()
-    # read file
-    with open(path) as f:
-        reader = csv.reader(f)
-        for row in reader:
-            status = row[0]
-            if status == "F":
-                fails.append(row)
-            elif status == "S":
-                succeeds.append(row)
-            else:
-                not_yet.append(row)
+    not_yet, succeeds, fails = _read_file(path)
     # evaluate measurements
     now = datetime.datetime.now()
     for row in list(not_yet):
@@ -67,6 +54,26 @@ def run_main():
         writer = csv.writer(f)
         for row in all_rows:
             writer.writerow(row)
+
+
+def _read_file(path):
+    fails = list()
+    succeeds = list()
+    not_yet = list()
+    try:
+        with open(path) as f:
+            reader = csv.reader(f)
+            for row in reader:
+                status = row[0]
+                if status == "F":
+                    fails.append(row)
+                elif status == "S":
+                    succeeds.append(row)
+                else:
+                    not_yet.append(row)
+    except FileNotFoundError:
+        pass
+    return not_yet, succeeds, fails
 
 
 def file_path():
