@@ -41,7 +41,7 @@ def run_main():
         percentage = "%d%%" % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = "N/A"
-    print("Succesful predictions:", percentage, ", not done yet:", len(not_yet))
+    print("Successful predictions:", percentage, ", not done yet:", len(not_yet))
     # add another prediction when needed
     print("Add another prediction? Y/N")
     user_input = input()
