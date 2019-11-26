@@ -2,6 +2,7 @@ import argparse
 import csv
 import datetime
 import time
+from operator import itemgetter
 
 TIME_FORMAT = "%Y-%m-%d %H:%M"
 
@@ -51,13 +52,9 @@ def run_main():
         eval_time = input()
         not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
     # overwrite predictions file
-    all_rows = list()
-    all_rows.extend(fails)
-    all_rows.extend(succeeds)
-    all_rows.extend(not_yet)
     with open(path, "wt") as f:
         writer = csv.writer(f)
-        for row in all_rows:
+        for row in sorted(fails + succeeds + not_yet, key=itemgetter(1)):
             writer.writerow(row)
 
 
