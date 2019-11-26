@@ -3,6 +3,8 @@ import csv
 import datetime
 import time
 
+TIME_FORMAT = "%Y-%m-%d %H:%M"
+
 
 def migrate():
     pass
@@ -14,23 +16,23 @@ def run_main():
     # evaluate measurements
     now = datetime.datetime.now()
     delayed = list()
-    for status, timestamp, text in not_yet:
-        evaluate_time = datetime.datetime(*(time.strptime(timestamp, "%Y-%m-%d %H:%M")[:6]))
+    for status, created, timestamp, text in not_yet:
+        evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
         if evaluate_time < now:
             print("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(text))
             user_input = input().capitalize()
             if user_input.startswith("Y"):
                 status = "S"
-                succeeds.append((status, timestamp, text))
+                succeeds.append((status, created, timestamp, text))
             elif user_input.startswith("D"):
                 print("When to evaluate (YYYY-mm-dd HH:MM):")
                 eval_time = input()
-                delayed.append(("N", eval_time, text))
+                delayed.append(("N", created, eval_time, text))
             else:
                 status = "F"
-                fails.append((status, timestamp, text))
+                fails.append((status, created, timestamp, text))
         else:
-            delayed.append((status, timestamp, text))
+            delayed.append((status, created, timestamp, text))
     not_yet = delayed
     # print total statistics
     total_done = len(fails) + len(succeeds)
@@ -47,7 +49,7 @@ def run_main():
         prediction = input()
         print("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = input()
-        not_yet.append(("N", eval_time, prediction))
+        not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
     # overwrite predictions file
     all_rows = list()
     all_rows.extend(fails)
