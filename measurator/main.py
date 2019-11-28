@@ -2,6 +2,7 @@ import argparse
 import csv
 import datetime
 import time
+from contextlib import ContextDecorator
 from operator import itemgetter
 
 TIME_FORMAT = "%Y-%m-%d %H:%M"
@@ -13,6 +14,9 @@ class IO:
         raise NotImplementedError
 
     def read(self) -> str:
+        raise NotImplementedError
+
+    def write_file(self, data: iter) -> None:
         raise NotImplementedError
 
     def read_file(self) -> iter:
@@ -32,6 +36,11 @@ class ConsoleIO(IO):
 
     def read(self) -> str:
         return input()
+
+    def write_file(self, data: iter) -> None:
+        with open(self._path, 'w') as f:
+            for line in data:
+                f.write(line)
 
     def read_file(self) -> iter:
         try:
@@ -53,8 +62,22 @@ def run_main():
     run_main_(ConsoleIO(path))
 
 
+class FileWriteProxy(ContextDecorator):
+    def __init__(self, io: IO):
+        self.io = io
+        self.cache = []
+
+    def write(self, data) -> None:
+        self.cache.append(data)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.io.write_file(self.cache)
+
+
 def run_main_(io: IO):
-    path = _file_path()
     not_yet, succeeds, fails = _read_file(io)
     # evaluate measurements
     delayed = list()
@@ -93,7 +116,7 @@ def run_main_(io: IO):
         eval_time = io.read()
         not_yet.append(("N", io.now().strftime(TIME_FORMAT), eval_time, prediction))
     # overwrite predictions file
-    with open(path, "wt") as f:
+    with FileWriteProxy(io) as f:
         writer = csv.writer(f)
         for row in sorted(fails + succeeds + not_yet, key=itemgetter(1)):
             writer.writerow(row)
