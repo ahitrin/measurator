@@ -18,6 +18,9 @@ class IO:
     def read_file(self) -> iter:
         raise NotImplementedError
 
+    def now(self) -> datetime.datetime:
+        raise NotImplementedError
+
 
 class ConsoleIO(IO):
     def __init__(self, path) -> None:
@@ -37,6 +40,9 @@ class ConsoleIO(IO):
         except FileNotFoundError:
             return []
 
+    def now(self) -> datetime.datetime:
+        return datetime.datetime.now()
+
 
 def migrate():
     pass
@@ -51,11 +57,10 @@ def run_main_(io: IO):
     path = _file_path()
     not_yet, succeeds, fails = _read_file(io)
     # evaluate measurements
-    now = datetime.datetime.now()
     delayed = list()
     for status, created, timestamp, text in not_yet:
         evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
-        if evaluate_time < now:
+        if evaluate_time < io.now():
             io.write("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(text))
             user_input = io.read().capitalize()
             if user_input.startswith("Y"):
@@ -86,7 +91,7 @@ def run_main_(io: IO):
         prediction = io.read()
         io.write("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = io.read()
-        not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
+        not_yet.append(("N", io.now().strftime(TIME_FORMAT), eval_time, prediction))
     # overwrite predictions file
     with open(path, "wt") as f:
         writer = csv.writer(f)
