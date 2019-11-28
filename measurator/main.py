@@ -5,52 +5,10 @@ import time
 from contextlib import ContextDecorator
 from operator import itemgetter
 
+from measurator.console import ConsoleIO
+from measurator.domain import IO
+
 TIME_FORMAT = "%Y-%m-%d %H:%M"
-
-
-class IO:
-    """Custom wrapper for all input/output interactions"""
-    def write(self, text: str, *args) -> None:
-        raise NotImplementedError
-
-    def read(self) -> str:
-        raise NotImplementedError
-
-    def write_file(self, data: iter) -> None:
-        raise NotImplementedError
-
-    def read_file(self) -> iter:
-        raise NotImplementedError
-
-    def now(self) -> datetime.datetime:
-        raise NotImplementedError
-
-
-class ConsoleIO(IO):
-    def __init__(self, path) -> None:
-        super().__init__()
-        self._path = path
-
-    def write(self, text: str, *args):
-        print(text, *args)
-
-    def read(self) -> str:
-        return input()
-
-    def write_file(self, data: iter) -> None:
-        with open(self._path, 'w') as f:
-            for line in data:
-                f.write(line)
-
-    def read_file(self) -> iter:
-        try:
-            with open(self._path) as f:
-                return f.readlines()
-        except FileNotFoundError:
-            return []
-
-    def now(self) -> datetime.datetime:
-        return datetime.datetime.now()
 
 
 def migrate():
