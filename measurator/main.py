@@ -9,11 +9,17 @@ TIME_FORMAT = "%Y-%m-%d %H:%M"
 
 class IO:
     """Custom wrapper for all input/output interactions"""
+    def write(self, text: str, *args) -> None:
+        raise NotImplementedError
+
     def read(self) -> str:
         raise NotImplementedError
 
 
 class ConsoleIO(IO):
+    def write(self, text: str, *args):
+        print(text, *args)
+
     def read(self) -> str:
         return input()
 
@@ -35,13 +41,13 @@ def run_main_(io: IO):
     for status, created, timestamp, text in not_yet:
         evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
         if evaluate_time < now:
-            print("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(text))
+            io.write("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(text))
             user_input = io.read().capitalize()
             if user_input.startswith("Y"):
                 status = "S"
                 succeeds.append((status, created, timestamp, text))
             elif user_input.startswith("D"):
-                print("When to evaluate (YYYY-mm-dd HH:MM):")
+                io.write("When to evaluate (YYYY-mm-dd HH:MM):")
                 eval_time = io.read()
                 delayed.append(("N", created, eval_time, text))
             else:
@@ -56,14 +62,14 @@ def run_main_(io: IO):
         percentage = "%d%%" % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = "N/A"
-    print("Successful predictions:", percentage, ", not done yet:", len(not_yet))
+    io.write("Successful predictions:", percentage, ", not done yet:", len(not_yet))
     # add another prediction when needed
-    print("Add another prediction? Y/N")
+    io.write("Add another prediction? Y/N")
     user_input = io.read()
     if user_input.capitalize().startswith("Y"):
-        print("Prediction:")
+        io.write("Prediction:")
         prediction = io.read()
-        print("When to evaluate (YYYY-mm-dd HH:MM):")
+        io.write("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = io.read()
         not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
     # overwrite predictions file
