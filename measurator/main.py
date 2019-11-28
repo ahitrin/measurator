@@ -15,13 +15,27 @@ class IO:
     def read(self) -> str:
         raise NotImplementedError
 
+    def read_file(self) -> iter:
+        raise NotImplementedError
+
 
 class ConsoleIO(IO):
+    def __init__(self, path) -> None:
+        super().__init__()
+        self._path = path
+
     def write(self, text: str, *args):
         print(text, *args)
 
     def read(self) -> str:
         return input()
+
+    def read_file(self) -> iter:
+        try:
+            with open(self._path) as f:
+                return f.readlines()
+        except FileNotFoundError:
+            return []
 
 
 def migrate():
@@ -29,12 +43,13 @@ def migrate():
 
 
 def run_main():
-    run_main_(ConsoleIO())
+    path = _file_path()
+    run_main_(ConsoleIO(path))
 
 
 def run_main_(io: IO):
     path = _file_path()
-    not_yet, succeeds, fails = _read_file(path)
+    not_yet, succeeds, fails = _read_file(io)
     # evaluate measurements
     now = datetime.datetime.now()
     delayed = list()
@@ -79,23 +94,19 @@ def run_main_(io: IO):
             writer.writerow(row)
 
 
-def _read_file(path):
+def _read_file(io):
     fails = list()
     succeeds = list()
     not_yet = list()
-    try:
-        with open(path) as f:
-            reader = csv.reader(f)
-            for row in reader:
-                status = row[0]
-                if status == "F":
-                    fails.append(row)
-                elif status == "S":
-                    succeeds.append(row)
-                else:
-                    not_yet.append(row)
-    except FileNotFoundError:
-        pass
+    reader = csv.reader(io.read_file())
+    for row in reader:
+        status = row[0]
+        if status == "F":
+            fails.append(row)
+        elif status == "S":
+            succeeds.append(row)
+        else:
+            not_yet.append(row)
     return not_yet, succeeds, fails
 
 
