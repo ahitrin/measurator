@@ -7,11 +7,26 @@ from operator import itemgetter
 TIME_FORMAT = "%Y-%m-%d %H:%M"
 
 
+class IO:
+    """Custom wrapper for all input/output interactions"""
+    def read(self) -> str:
+        raise NotImplementedError
+
+
+class ConsoleIO(IO):
+    def read(self) -> str:
+        return input()
+
+
 def migrate():
     pass
 
 
 def run_main():
+    run_main_(ConsoleIO())
+
+
+def run_main_(io: IO):
     path = _file_path()
     not_yet, succeeds, fails = _read_file(path)
     # evaluate measurements
@@ -21,13 +36,13 @@ def run_main():
         evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
         if evaluate_time < now:
             print("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(text))
-            user_input = input().capitalize()
+            user_input = io.read().capitalize()
             if user_input.startswith("Y"):
                 status = "S"
                 succeeds.append((status, created, timestamp, text))
             elif user_input.startswith("D"):
                 print("When to evaluate (YYYY-mm-dd HH:MM):")
-                eval_time = input()
+                eval_time = io.read()
                 delayed.append(("N", created, eval_time, text))
             else:
                 status = "F"
@@ -44,12 +59,12 @@ def run_main():
     print("Successful predictions:", percentage, ", not done yet:", len(not_yet))
     # add another prediction when needed
     print("Add another prediction? Y/N")
-    user_input = input()
+    user_input = io.read()
     if user_input.capitalize().startswith("Y"):
         print("Prediction:")
-        prediction = input()
+        prediction = io.read()
         print("When to evaluate (YYYY-mm-dd HH:MM):")
-        eval_time = input()
+        eval_time = io.read()
         not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
     # overwrite predictions file
     with open(path, "wt") as f:
