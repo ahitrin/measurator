@@ -15,7 +15,7 @@ class ConsoleIO(IO):
         return input()
 
     def write_file(self, data: iter) -> None:
-        with open(self._path, 'w') as f:
+        with open(self._path, "w") as f:
             for line in data:
                 f.write(line)
 
