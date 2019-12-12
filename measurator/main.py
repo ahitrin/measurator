@@ -16,8 +16,8 @@ def migrate():
 
 
 def run_main():
-    path = _file_path()
-    run_main_(ConsoleIO(path))
+    args = _process_args()
+    run_main_(ConsoleIO(args.path))
 
 
 class FileWriteProxy(ContextDecorator):
@@ -96,8 +96,8 @@ def _read_file(io):
     return not_yet, succeeds, fails
 
 
-def _file_path():
+def _process_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("path")
     args = parser.parse_args()
-    return args.path
+    return args
