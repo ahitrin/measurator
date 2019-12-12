@@ -42,7 +42,7 @@ def run_main_(io: IO):
     for status, created, timestamp, text in not_yet:
         evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
         if evaluate_time < io.now():
-            io.write("Time to evaluate: {}\n Is it true? (Yes/No/Delay)".format(text))
+            io.write(f"Time to evaluate: {text}\n Is it true? (Yes/No/Delay)")
             user_input = io.read().capitalize()
             if user_input.startswith("Y"):
                 status = "S"
