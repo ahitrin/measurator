@@ -42,7 +42,7 @@ def run_main_(io: IO):
     for status, created, timestamp, text in not_yet:
         evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
         if evaluate_time < io.now():
-            io.write(f"Time to evaluate: {text}\n Is it true? (Yes/No/Delay)")
+            io.write(f"Time to evaluate: {text}\n Is it true? (Delay/Reject/Yes/*No*)")
             user_input = io.read().capitalize()
             if user_input.startswith("Y"):
                 status = "S"
@@ -51,6 +51,8 @@ def run_main_(io: IO):
                 io.write("When to evaluate (YYYY-mm-dd HH:MM):")
                 eval_time = io.read()
                 delayed.append(("N", created, eval_time, text))
+            elif user_input.startswith('R'):
+                io.write("Evaluation rejected")
             else:
                 status = "F"
                 fails.append((status, created, timestamp, text))
