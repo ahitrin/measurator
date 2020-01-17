@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='measurator',
-    version='0.2.3',
+    version='0.2.4',
     url='https://github.com/ahitrin-attic/measurator-proto',
     license='MIT',
     author='Andrey Hitrin',
