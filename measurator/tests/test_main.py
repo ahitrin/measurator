@@ -72,3 +72,35 @@ def test_add_prediction():
         ["Y", "Prediction 1", "2020-02-01 09:00"],
         ["2020-01-31 12:00"],
     )
+
+
+def test_validate_prediction_true():
+    _run_test(
+        _sample_content(),
+        ["Y", "Y", "N"],
+        ["2020-04-01 12:00"],
+    )
+
+
+def test_validate_prediction_delay():
+    _run_test(
+        _sample_content(),
+        ["D", "2020-04-02 09:00", "D", "2020-05-01 12:00", "N"],
+        ["2020-04-01 12:00"],
+    )
+
+
+def test_validate_prediction_false():
+    _run_test(
+        _sample_content(),
+        ["N", "N", "N"],
+        ["2020-04-01 12:00"],
+    )
+
+
+def test_validate_prediction_reject():
+    _run_test(
+        _sample_content(),
+        ["R", "R", "N"],
+        ["2020-04-01 12:00"],
+    )
