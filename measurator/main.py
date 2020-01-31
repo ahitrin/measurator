@@ -82,7 +82,7 @@ def run_main_(io: IO):
             writer.writerow(row)
 
 
-def _read_file(io):
+def _read_file(io: IO):
     fails = list()
     succeeds = list()
     not_yet = list()
