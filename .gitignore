@@ -1,6 +1,8 @@
-.env
 build
+.coverage
 dist
 *.egg-info
-*.pyc
+.env
+htmlcov
 .idea
+*.pyc
