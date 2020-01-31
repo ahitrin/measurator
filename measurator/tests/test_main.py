@@ -36,21 +36,16 @@ class DummyIO(IO):
         return datetime.datetime.strptime(timestamp, TIME_FORMAT)
 
 
-def test_empty_file_no_predictions():
-    inputs = ['N']
-    timestamps = []
-    file_content = []
+def _run_test(file_content, inputs, timestamps):
     io = DummyIO(inputs, timestamps, file_content)
     run_main_(io)
     reporter = GenericDiffReporterFactory().get_first_working()
     verify("\n".join(io.log), reporter)
+
+
+def test_empty_file_no_predictions():
+    _run_test([], ['N'], [])
 
 
 def test_empty_file_add_prediction():
-    inputs = ['Y', 'Prediction 1', '2020-02-01 09:00']
-    timestamps = ['2020-01-31 12:00']
-    file_content = []
-    io = DummyIO(inputs, timestamps, file_content)
-    run_main_(io)
-    reporter = GenericDiffReporterFactory().get_first_working()
-    verify("\n".join(io.log), reporter)
+    _run_test([], ['Y', 'Prediction 1', '2020-02-01 09:00'], ['2020-01-31 12:00'])
