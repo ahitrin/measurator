@@ -25,7 +25,7 @@ class DummyIO(IO):
         return output
 
     def write_file(self, data: iter) -> None:
-        self.log.append(f"! {'|'.join(data)}")
+        self.log.append("! " + "\n! ".join(x.strip() for x in data))
 
     def read_file(self) -> iter:
         self.log.append("* READ FILE")
