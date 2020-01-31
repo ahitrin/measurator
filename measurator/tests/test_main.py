@@ -45,7 +45,7 @@ def _run_test(file_content, inputs, timestamps):
 
 
 def _sample_content():
-    sample_file = os.path.join(os.getcwd(), 'example.csv')
+    sample_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'example.csv')
     file_content = []
     with open(sample_file) as f:
         file_content.extend(f.readlines())
