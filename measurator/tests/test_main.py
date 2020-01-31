@@ -76,9 +76,7 @@ def test_add_prediction():
 
 def test_validate_prediction_true():
     _run_test(
-        _sample_content(),
-        ["Y", "Y", "N"],
-        ["2020-04-01 12:00"],
+        _sample_content(), ["Y", "Y", "N"], ["2020-04-01 12:00"],
     )
 
 
@@ -92,15 +90,11 @@ def test_validate_prediction_delay():
 
 def test_validate_prediction_false():
     _run_test(
-        _sample_content(),
-        ["N", "N", "N"],
-        ["2020-04-01 12:00"],
+        _sample_content(), ["N", "N", "N"], ["2020-04-01 12:00"],
     )
 
 
 def test_validate_prediction_reject():
     _run_test(
-        _sample_content(),
-        ["R", "R", "N"],
-        ["2020-04-01 12:00"],
+        _sample_content(), ["R", "R", "N"], ["2020-04-01 12:00"],
     )
