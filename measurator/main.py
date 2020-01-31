@@ -39,9 +39,10 @@ def run_main_(io: IO):
     not_yet, succeeds, fails = _read_file(io)
     # evaluate measurements
     delayed = list()
+    now = io.now()
     for status, created, timestamp, text in not_yet:
         evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
-        if evaluate_time < io.now():
+        if evaluate_time < now:
             io.write(f"Time to evaluate: {text}\n Is it true? (Delay/Reject/Yes/*No*)")
             user_input = io.read().capitalize()
             if user_input.startswith("Y"):
@@ -74,7 +75,7 @@ def run_main_(io: IO):
         prediction = io.read()
         io.write("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = io.read()
-        not_yet.append(("N", io.now().strftime(TIME_FORMAT), eval_time, prediction))
+        not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
     # overwrite predictions file
     with FileWriteProxy(io) as f:
         writer = csv.writer(f)

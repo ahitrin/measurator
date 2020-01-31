@@ -1,4 +1,5 @@
 import datetime
+import os
 from typing import List
 
 from approvaltests import verify
@@ -44,8 +45,16 @@ def _run_test(file_content, inputs, timestamps):
 
 
 def test_empty_file_no_predictions():
-    _run_test([], ['N'], [])
+    _run_test([], ['N'], ['2020-01-31 12:00'])
 
 
 def test_empty_file_add_prediction():
     _run_test([], ['Y', 'Prediction 1', '2020-02-01 09:00'], ['2020-01-31 12:00'])
+
+
+def test_no_predictions():
+    sample_file = os.path.join(os.getcwd(), 'example.csv')
+    file_content = []
+    with open(sample_file) as f:
+        file_content.extend(f.readlines())
+    _run_test(file_content, ['N'], ['2020-01-31 12:00'])
