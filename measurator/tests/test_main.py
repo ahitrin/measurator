@@ -8,7 +8,7 @@ from measurator import run_main_, TIME_FORMAT
 from measurator.domain import IO
 
 
-class TestableIO(IO):
+class DummyIO(IO):
     def __init__(self, inputs: List[str], timestamps: List[str], file_content: iter):
         self.file_content = file_content
         self.inputs = inputs
@@ -40,7 +40,7 @@ def test_empty_file_no_predictions():
     inputs = ['N']
     timestamps = []
     file_content = []
-    io = TestableIO(inputs, timestamps, file_content)
+    io = DummyIO(inputs, timestamps, file_content)
     run_main_(io)
     reporter = GenericDiffReporterFactory().get_first_working()
     verify("\n".join(io.log), reporter)
@@ -50,7 +50,7 @@ def test_empty_file_add_prediction():
     inputs = ['Y', 'Prediction 1', '2020-02-01 09:00']
     timestamps = ['2020-01-31 12:00']
     file_content = []
-    io = TestableIO(inputs, timestamps, file_content)
+    io = DummyIO(inputs, timestamps, file_content)
     run_main_(io)
     reporter = GenericDiffReporterFactory().get_first_working()
     verify("\n".join(io.log), reporter)
