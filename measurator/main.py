@@ -52,7 +52,7 @@ def run_main_(io: IO):
                 io.write("When to evaluate (YYYY-mm-dd HH:MM):")
                 eval_time = io.read()
                 delayed.append(("N", created, eval_time, text))
-            elif user_input.startswith('R'):
+            elif user_input.startswith("R"):
                 io.write("Evaluation rejected")
             else:
                 status = "F"

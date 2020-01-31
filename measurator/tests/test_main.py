@@ -45,7 +45,9 @@ def _run_test(file_content, inputs, timestamps):
 
 
 def _sample_content():
-    sample_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'example.csv')
+    sample_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "example.csv"
+    )
     file_content = []
     with open(sample_file) as f:
         file_content.extend(f.readlines())
@@ -53,16 +55,20 @@ def _sample_content():
 
 
 def test_empty_file_no_predictions():
-    _run_test([], ['N'], ['2020-01-31 12:00'])
+    _run_test([], ["N"], ["2020-01-31 12:00"])
 
 
 def test_empty_file_add_prediction():
-    _run_test([], ['Y', 'Prediction 1', '2020-02-01 09:00'], ['2020-01-31 12:00'])
+    _run_test([], ["Y", "Prediction 1", "2020-02-01 09:00"], ["2020-01-31 12:00"])
 
 
 def test_no_predictions():
-    _run_test(_sample_content(), ['N'], ['2020-01-31 12:00'])
+    _run_test(_sample_content(), ["N"], ["2020-01-31 12:00"])
 
 
 def test_add_prediction():
-    _run_test(_sample_content(), ['Y', 'Prediction 1', '2020-02-01 09:00'], ['2020-01-31 12:00'])
+    _run_test(
+        _sample_content(),
+        ["Y", "Prediction 1", "2020-02-01 09:00"],
+        ["2020-01-31 12:00"],
+    )
