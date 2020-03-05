@@ -2,7 +2,6 @@ build
 .coverage
 dist
 *.egg-info
-.env
 htmlcov
 .idea
 *.pyc

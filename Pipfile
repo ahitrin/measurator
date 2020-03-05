@@ -1,0 +1,15 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+approvaltests = "==0.2.6"
+pytest = "==5.3.5"
+pytest-approvaltests = "==0.1.0"
+pytest-cov = "==2.8.1"
+
+[packages]
+
+[requires]
+python_version = "3.6"
