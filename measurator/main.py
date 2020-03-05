@@ -17,7 +17,7 @@ def migrate():
 
 def run_main():
     args = _process_args()
-    run_main_(ConsoleIO(args.path))
+    run_main_(ConsoleIO(args))
 
 
 class FileWriteProxy(ContextDecorator):

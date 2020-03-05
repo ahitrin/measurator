@@ -4,9 +4,9 @@ from measurator.domain import IO
 
 
 class ConsoleIO(IO):
-    def __init__(self, path) -> None:
+    def __init__(self, args) -> None:
         super().__init__()
-        self._path = path
+        self._path = args.path
 
     def write(self, text: str, *args):
         print(text, *args)
