@@ -5,3 +5,4 @@ dist
 htmlcov
 .idea
 *.pyc
+*.received.txt
