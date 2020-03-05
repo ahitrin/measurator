@@ -68,7 +68,7 @@ def run_main_(io: IO):
         percentage = "N/A"
     io.write("Successful predictions:", percentage, ", not done yet:", len(not_yet))
     # add another prediction when needed
-    io.write("Add another prediction? Y/N")
+    io.write("Add another prediction? Yes/*No*/List")
     user_input = io.read().capitalize()
     if user_input.startswith("Y"):
         io.write("Prediction:")

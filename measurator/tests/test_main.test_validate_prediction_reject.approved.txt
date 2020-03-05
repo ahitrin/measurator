@@ -9,7 +9,7 @@
 > R
  Evaluation rejected
  Successful predictions:41%, not done yet:0
- Add another prediction? Y/N
+ Add another prediction? Yes/*No*/List
 > N
 ! F,2019-11-13 11:10,2019-11-18 09:00,Успею ли я починить все падающие автотесты в NSDPRD-13267 до конца недели? 90%-нет
 ! F,2019-11-13 11:10,2019-11-18 09:00,Успею ли я до конца недели начать работать над нагрузочным тестированием NSDPRJ-2313? 90%-да

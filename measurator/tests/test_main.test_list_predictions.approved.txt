@@ -1,7 +1,7 @@
 * READ FILE
 @ 2020-01-31 12:00
  Successful predictions:41%, not done yet:2
- Add another prediction? Y/N
+ Add another prediction? Yes/*No*/List
 > L
  2020-03-01 08:00: NSDPRD-13544: уложусь ли в оценку 13d? 90% - НЕТ
  2020-03-01 08:00: NSDPRD-13544: уложусь ли по затратам в 26d? 90% - ДА

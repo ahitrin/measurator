@@ -1,7 +1,7 @@
 * READ FILE
 @ 2020-01-31 12:00
  Successful predictions:41%, not done yet:2
- Add another prediction? Y/N
+ Add another prediction? Yes/*No*/List
 > Y
  Prediction:
 > Prediction 1
