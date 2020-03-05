@@ -74,6 +74,12 @@ def test_add_prediction():
     )
 
 
+def test_list_predictions():
+    _run_test(
+        _sample_content(), ["L"], ["2020-01-31 12:00"],
+    )
+
+
 def test_validate_prediction_true():
     _run_test(
         _sample_content(), ["Y", "Y", "N"], ["2020-04-01 12:00"],

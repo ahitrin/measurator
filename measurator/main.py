@@ -69,13 +69,16 @@ def run_main_(io: IO):
     io.write("Successful predictions:", percentage, ", not done yet:", len(not_yet))
     # add another prediction when needed
     io.write("Add another prediction? Y/N")
-    user_input = io.read()
-    if user_input.capitalize().startswith("Y"):
+    user_input = io.read().capitalize()
+    if user_input.startswith("Y"):
         io.write("Prediction:")
         prediction = io.read()
         io.write("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = io.read()
         not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
+    elif user_input.startswith("L"):
+        for row in not_yet:
+            io.write(f"{row[2]}: {row[3]}")
     # overwrite predictions file
     with FileWriteProxy(io) as f:
         writer = csv.writer(f)
