@@ -1,0 +1,47 @@
+[
+  [
+    "BeyondCompare4x64",
+    "C:/Program Files/Beyond Compare 4/BCompare.exe"
+  ],
+  [
+    "BeyondCompare4",
+    "C:/Program Files (x86)/Beyond Compare 4/BCompare.exe"
+  ],
+  [
+    "BeyondCompare4Mac",
+    "/usr/local/bin/bcompare"
+  ],
+  [
+    "BeyondCompare3",
+    "C:/Program Files (x86)/Beyond Compare 3/BCompare.exe"
+  ],
+  [
+    "AraxisMergeWin",
+    "C:/Program Files/Araxis/Araxis Merge/Merge.exe"
+  ],
+  [
+    "AraxisMergeMac",
+    "/Applications/Araxis Merge.app/Contents/Utilities/compare"
+  ],
+  [
+    "WinMerge",
+    "C:/Program Files (x86)/WinMerge/WinMergeU.exe"
+  ],
+  [
+    "kdiff3",
+    "/usr/bin/kdiff3"
+  ],
+  [
+    "meld",
+    "meld"
+  ],
+  [
+    "DiffMerge",
+    "/Applications/DiffMerge.app/Contents/MacOS/DiffMerge"
+  ],
+  [
+    "PyCharm",
+    "/Applications/PyCharm CE.app/Contents/MacOS/pycharm",
+    ["diff"]
+  ]
+]
