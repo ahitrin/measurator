@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec pipenv run black measurator
