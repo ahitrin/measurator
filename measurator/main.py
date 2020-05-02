@@ -75,7 +75,11 @@ def run_main_(io: IO):
         prediction = io.read()
         io.write("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = io.read()
-        not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
+        try:
+            datetime.datetime.strptime(eval_time, TIME_FORMAT)
+            not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
+        except ValueError:
+            io.write("Wrong time format, prediction is not saved!")
     elif user_input.startswith("L"):
         for row in not_yet:
             io.write(f"{row[2]}: {row[3]}")

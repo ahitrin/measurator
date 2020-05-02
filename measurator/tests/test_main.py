@@ -116,3 +116,9 @@ def test_validate_prediction_reject():
         inputs=["R", "R", "N"],
         timestamps=["2020-04-01 12:00"],
     )
+
+
+def test_reject_invalid_prediction_date_format():
+    _run_test(
+        file_content=[], inputs=["Y", "prediction", "2020-04-01"], timestamps=["2020-04-01 12:00"],
+    )

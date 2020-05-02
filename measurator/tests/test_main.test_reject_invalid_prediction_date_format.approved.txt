@@ -1,0 +1,11 @@
+* READ FILE
+@ 2020-04-01 12:00
+ Successful predictions:N/A, not done yet:0
+ Add another prediction? Yes/*No*/List
+> Y
+ Prediction:
+> prediction
+ When to evaluate (YYYY-mm-dd HH:MM):
+> 2020-04-01
+ Wrong time format, prediction is not saved!
+! 
