@@ -6,3 +6,4 @@ htmlcov
 .idea
 *.pyc
 *.received.txt
+.env
