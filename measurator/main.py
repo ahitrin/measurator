@@ -76,8 +76,11 @@ def run_main_(io: IO):
         io.write("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = io.read()
         try:
-            datetime.datetime.strptime(eval_time, TIME_FORMAT)
-            not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
+            when = datetime.datetime.strptime(eval_time, TIME_FORMAT)
+            if when > now:
+                not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
+            else:
+                io.write("This date is in past, prediction is not saved!")
         except ValueError:
             io.write("Wrong time format, prediction is not saved!")
     elif user_input.startswith("L"):
