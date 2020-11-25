@@ -44,9 +44,10 @@ def _run_test(file_content, inputs, timestamps):
     verify("\n".join(io.log), reporter)
 
 
-def _sample_content():
+def _sample_content(file_format=1):
+    file_name = {1: "example.csv", 2: "example2.csv"}
     sample_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "example.csv"
+        os.path.dirname(os.path.abspath(__file__)), file_name[file_format]
     )
     file_content = []
     with open(sample_file) as f:
@@ -75,6 +76,14 @@ def test_no_predictions():
 def test_add_prediction():
     _run_test(
         file_content=_sample_content(),
+        inputs=["Y", "Prediction 1", "2020-02-01 09:00"],
+        timestamps=["2020-01-31 12:00"],
+    )
+
+
+def test_add_prediction_new_format():
+    _run_test(
+        file_content=_sample_content(2),
         inputs=["Y", "Prediction 1", "2020-02-01 09:00"],
         timestamps=["2020-01-31 12:00"],
     )

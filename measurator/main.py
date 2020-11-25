@@ -90,6 +90,7 @@ def run_main_(io: IO):
     with FileWriteProxy(io) as f:
         writer = csv.writer(f)
         for row in sorted(fails + succeeds + not_yet, key=itemgetter(1)):
+            row = list(row[0:3]) + [""] + list(row[3:])
             writer.writerow(row)
 
 
@@ -100,6 +101,8 @@ def _read_file(io: IO):
     reader = csv.reader(io.read_file())
     for row in reader:
         status = row[0]
+        if len(row) == 5:
+            row = (row[0], row[1], row[2], row[4])
         if status == "F":
             fails.append(row)
         elif status == "S":
