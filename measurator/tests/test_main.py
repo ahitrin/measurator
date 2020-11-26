@@ -42,17 +42,17 @@ def _generate_report(io: DummyIO):
     report_part: str = ""
     for event_type, event_content in io.log:
         if "write" == event_type:
-            report_part = " " + event_content
+            report_part = f"Program output:\n> {event_content}"
         elif "read" == event_type:
-            report_part = "> " + event_content
+            report_part = f"User input:\n> {event_content}"
         elif "write_file" == event_type:
             report_part = f"File is written:\n```\n{event_content}\n```"
         elif "read_file" == event_type:
-            report_part = "* READ FILE"
+            report_part = "(READ FILE)"
         elif "time" == event_type:
-            report_part = "Current time is " + event_content
+            report_part = f"Current time is {event_content}."
         text.append(report_part)
-    return "\n".join(text)
+    return "\n\n".join(text)
 
 
 def _run_test(file_content, inputs, timestamps):
