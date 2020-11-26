@@ -1,5 +1,5 @@
 * READ FILE
-@ 2020-04-01 12:00
+Current time is 2020-04-01 12:00
  Time to evaluate: NSDPRD-13544: уложусь ли в оценку 13d? 90% - НЕТ
  Is it true? (Delay/Reject/Yes/*No*)
 > R

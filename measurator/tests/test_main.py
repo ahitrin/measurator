@@ -50,7 +50,7 @@ def _generate_report(io: DummyIO):
         elif "read_file" == event_type:
             report_part = "* READ FILE"
         elif "time" == event_type:
-            report_part = "@ " + event_content
+            report_part = "Current time is " + event_content
         text.append(report_part)
     return "\n".join(text)
 
