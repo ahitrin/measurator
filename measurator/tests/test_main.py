@@ -25,7 +25,7 @@ class DummyIO(IO):
         return output
 
     def write_file(self, data: iter) -> None:
-        self.log.append(("write_file", "\n! ".join(x.strip() for x in data)))
+        self.log.append(("write_file", "\n".join(x.strip() for x in data)))
 
     def read_file(self) -> iter:
         self.log.append(("read_file", ""))
@@ -48,7 +48,8 @@ def _run_test(file_content, inputs, timestamps):
         elif "read" == event_type:
             text.append("> " + event_content)
         elif "write_file" == event_type:
-            text.append("! " + event_content)
+            rows = event_content.split("\n")
+            text.append("! " + "\n! ".join(rows))
         elif "read_file" == event_type:
             text.append("* READ FILE")
         elif "time" == event_type:
