@@ -37,10 +37,7 @@ class DummyIO(IO):
         return datetime.datetime.strptime(timestamp, TIME_FORMAT)
 
 
-def _run_test(file_content, inputs, timestamps):
-    io = DummyIO(inputs, timestamps, file_content)
-    run_main_(io)
-    reporter = GenericDiffReporterFactory().get_first_working()
+def _generate_report(io: DummyIO):
     text: List[str] = []
     for event_type, event_content in io.log:
         if "write" == event_type:
@@ -54,7 +51,15 @@ def _run_test(file_content, inputs, timestamps):
             text.append("* READ FILE")
         elif "time" == event_type:
             text.append("@ " + event_content)
-    verify("\n".join(text), reporter)
+    return "\n".join(text)
+
+
+def _run_test(file_content, inputs, timestamps):
+    io = DummyIO(inputs, timestamps, file_content)
+    run_main_(io)
+    reporter = GenericDiffReporterFactory().get_first_working()
+    report = _generate_report(io)
+    verify(report, reporter)
 
 
 def _sample_content(file_format=1):
