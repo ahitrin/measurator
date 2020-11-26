@@ -1,6 +1,6 @@
 import datetime
 import os
-from typing import List
+from typing import List, Tuple
 
 from approvaltests import verify
 from approvaltests.reporters import GenericDiffReporterFactory
@@ -14,26 +14,26 @@ class DummyIO(IO):
         self.file_content = file_content
         self.inputs = inputs
         self.timestamps = timestamps
-        self.log: List[str] = []
+        self.log: List[Tuple[str, str]] = []
 
     def write(self, text: str, *args) -> None:
-        self.log.append(f" {text}{''.join(str(x) for x in args)}")
+        self.log.append(("write", f"{text}{''.join(str(x) for x in args)}"))
 
     def read(self) -> str:
         output = self.inputs.pop(0)
-        self.log.append(f"> {output}")
+        self.log.append(("read", output))
         return output
 
     def write_file(self, data: iter) -> None:
-        self.log.append("! " + "\n! ".join(x.strip() for x in data))
+        self.log.append(("write_file", "\n! ".join(x.strip() for x in data)))
 
     def read_file(self) -> iter:
-        self.log.append("* READ FILE")
+        self.log.append(("read_file", ""))
         return self.file_content
 
     def now(self) -> datetime.datetime:
         timestamp = self.timestamps.pop(0)
-        self.log.append(f"@ {timestamp}")
+        self.log.append(("time", timestamp))
         return datetime.datetime.strptime(timestamp, TIME_FORMAT)
 
 
@@ -41,7 +41,19 @@ def _run_test(file_content, inputs, timestamps):
     io = DummyIO(inputs, timestamps, file_content)
     run_main_(io)
     reporter = GenericDiffReporterFactory().get_first_working()
-    verify("\n".join(io.log), reporter)
+    text: List[str] = []
+    for event_type, event_content in io.log:
+        if "write" == event_type:
+            text.append(" " + event_content)
+        elif "read" == event_type:
+            text.append("> " + event_content)
+        elif "write_file" == event_type:
+            text.append("! " + event_content)
+        elif "read_file" == event_type:
+            text.append("* READ FILE")
+        elif "time" == event_type:
+            text.append("@ " + event_content)
+    verify("\n".join(text), reporter)
 
 
 def _sample_content(file_format=1):
