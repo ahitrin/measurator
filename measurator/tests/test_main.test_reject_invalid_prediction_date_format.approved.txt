@@ -8,4 +8,7 @@
  When to evaluate (YYYY-mm-dd HH:MM):
 > 2020-04-01
  Wrong time format, prediction is not saved!
-! 
+File is written:
+```
+
+```

@@ -46,8 +46,7 @@ def _generate_report(io: DummyIO):
         elif "read" == event_type:
             report_part = "> " + event_content
         elif "write_file" == event_type:
-            rows = event_content.split("\n")
-            report_part = "! " + "\n! ".join(rows)
+            report_part = f"File is written:\n```\n{event_content}\n```"
         elif "read_file" == event_type:
             report_part = "* READ FILE"
         elif "time" == event_type:
