@@ -39,18 +39,20 @@ class DummyIO(IO):
 
 def _generate_report(io: DummyIO):
     text: List[str] = []
+    report_part: str = ""
     for event_type, event_content in io.log:
         if "write" == event_type:
-            text.append(" " + event_content)
+            report_part = " " + event_content
         elif "read" == event_type:
-            text.append("> " + event_content)
+            report_part = "> " + event_content
         elif "write_file" == event_type:
             rows = event_content.split("\n")
-            text.append("! " + "\n! ".join(rows))
+            report_part = "! " + "\n! ".join(rows)
         elif "read_file" == event_type:
-            text.append("* READ FILE")
+            report_part = "* READ FILE"
         elif "time" == event_type:
-            text.append("@ " + event_content)
+            report_part = "@ " + event_content
+        text.append(report_part)
     return "\n".join(text)
 
 
