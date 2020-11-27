@@ -1,1 +1,1 @@
-from measurator.main import *
+from measurator.main import run_main, migrate
