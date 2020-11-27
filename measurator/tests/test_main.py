@@ -5,8 +5,8 @@ from typing import List, Tuple
 from approvaltests import verify
 from approvaltests.reporters import GenericDiffReporterFactory
 
-from measurator import run_main_, TIME_FORMAT
 from measurator.domain import IO
+from measurator.main import run_main_, TIME_FORMAT
 
 
 class DummyIO(IO):
