@@ -1,38 +1,36 @@
-Measurator
-===
+# Measurator
 
-В книге "How To Measure Everything" описывается множество полезных идей, однако не существует какого-то удобного приложения, в котором можно было бы удобным образом вести учет. Делать это в эксельке не хочется, т.к. удобство резко падает при росте документа.
+This application is inspired by the book ["How to measure anything"][book] which I've bought several years ago.
 
-Это прототип для оценки полезности идеи
----
+It implements following idea from the book: if you want to make good predictions in some field, you need to _calibrate_ yourself regularly.
+This simply means following:
 
-Пишем консольное приложение на питоне, которое в диалоговом режиме умеет выполнять следующие действия:
+* You make predictions/guesses about something
+* Then you evaluate your predictions: are they successful or not
+* Then you calculate a total percent of your successful predictions.
 
-**Как** разработчик софта
-**Я хочу** записывать свои оценки затрат на решение задач
-**Для того, чтобы** анализировать в дальнейшем их точность
+If this percent is too low, then your next predictions must use wider borders.
 
-**Как** разработчик софта
-**Я хочу** фиксировать факт удачного/неудачного предсказания, когда приходит время
-**Для того, чтобы** понимать, насколько я ошибаюсь в оценках
+## When it could be useful
 
-**Как** разработчик софта
-**Я хочу** видеть общий процент успешности своих предсказаний
-**Для того, чтобы** понимать, насколько точно я умею предсказывать
+I use it in my work to calibrate predictions about key points of my tasks.
+E.g.: "ticket X will go into code review til the given date".
+I run this script during morning routine, and when the specified date occurs, the script asks me whether the key point is reached.
 
-**Как** разработчик софта
-**Я хочу** сохранять разные типы оценок в разных файлах
-**Для того, чтобы** не смешивать их друг с другом
+## Usage
 
-Хранение данных
----
+Install it from the source:
 
-Для прототипа подойдёт и простой текстовый формат. Можно использовать либо csv (оптимальный вариант для машинного чтения/записи), либо простейший DSL а-ля property (удобнее смотреть/писать человеку).
+```shell
+$ pip3 install --user .
+```
 
-Из чего состоит оценка:
+Then, run `measure` script that asks you for the next prediction.
 
- * бинарный флаг, проверили оценку или ещё нет (и успешность предсказания)
- * описание какого-то факта
- * либо числовой диапазон, в который должна попасть его величина, либо бинарный выбор да/нет
- * дата (и время?), когда надо провести измерение
+For more examples, please examine `.md` files in the [tests](measurator/tests) directory.
 
+## Aknowledges
+
+Thanks @hgenru who asked me to opensource this simple code!
+
+[book]: https://www.howtomeasureanything.com/3rd-edition/
