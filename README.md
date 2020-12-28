@@ -31,6 +31,6 @@ For more examples, please examine `.md` files in the [tests](measurator/tests) d
 
 ## Aknowledges
 
-Thanks @hgenru who asked me to opensource this simple code!
+Thanks [@hgenru](https://github.com/hgenru) who asked me to opensource this simple code!
 
 [book]: https://www.howtomeasureanything.com/3rd-edition/
