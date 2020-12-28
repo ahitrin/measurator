@@ -2,7 +2,7 @@ import datetime
 import os
 from typing import List, Tuple
 
-from approvaltests import verify
+from approvaltests import verify, get_default_namer
 from approvaltests.reporters import GenericDiffReporterFactory
 
 from measurator.domain import IO
@@ -60,7 +60,7 @@ def _run_test(file_content, inputs, timestamps):
     run_main_(io)
     reporter = GenericDiffReporterFactory().get_first_working()
     report = _generate_report(io)
-    verify(report, reporter)
+    verify(report, reporter, get_default_namer(".md"))
 
 
 def _sample_content(file_format=1):
