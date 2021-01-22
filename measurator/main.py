@@ -38,7 +38,10 @@ class FileWriteProxy(ContextDecorator):
 
 class Prediction:
     def __init__(self, row):
-        self.status, self.created, self.timestamp, self.text = row
+        if len(row) == 5:
+            self.status, self.created, self.timestamp, _, self.text = row
+        else:
+            self.status, self.created, self.timestamp, self.text = row
 
     def changed(self, status):
         return Prediction([status, self.created, self.timestamp, self.text])
@@ -120,8 +123,6 @@ def _read_file(io: IO) -> Tuple[List[Prediction], List[Prediction], List[Predict
     not_yet: List[Prediction] = list()
     reader = csv.reader(io.read_file())
     for row in reader:
-        if len(row) == 5:
-            row = (row[0], row[1], row[2], row[4])
         p = Prediction(row)
         if p.status == "F":
             fails.append(p)
