@@ -120,13 +120,12 @@ def _read_file(io: IO) -> Tuple[List[Prediction], List[Prediction], List[Predict
     not_yet: List[Prediction] = list()
     reader = csv.reader(io.read_file())
     for row in reader:
-        status = row[0]
         if len(row) == 5:
             row = (row[0], row[1], row[2], row[4])
         p = Prediction(row)
-        if status == "F":
+        if p.status == "F":
             fails.append(p)
-        elif status == "S":
+        elif p.status == "S":
             succeeds.append(p)
         else:
             not_yet.append(p)
