@@ -62,25 +62,25 @@ def run_main_(io: IO):
         evaluate_time = datetime.datetime(
             *(time.strptime(prediction.timestamp, TIME_FORMAT)[:6])
         )
-        if evaluate_time < now:
-            io.write(
-                f"Time to evaluate: {prediction.text}\n Is it true? (Delay/Reject/Yes/*No*)"
-            )
-            user_input = io.read().capitalize()
-            if user_input.startswith("Y"):
-                status = "S"
-                succeeds.append(prediction.changed(status))
-            elif user_input.startswith("D"):
-                io.write("When to evaluate (YYYY-mm-dd HH:MM):")
-                eval_time = io.read()
-                delayed.append(prediction.changed_at("N", eval_time))
-            elif user_input.startswith("R"):
-                io.write("Evaluation rejected")
-            else:
-                status = "F"
-                fails.append(prediction.changed(status))
-        else:
+        if evaluate_time >= now:
             delayed.append(prediction)
+            continue
+        io.write(
+            f"Time to evaluate: {prediction.text}\n Is it true? (Delay/Reject/Yes/*No*)"
+        )
+        user_input = io.read().capitalize()
+        if user_input.startswith("Y"):
+            status = "S"
+            succeeds.append(prediction.changed(status))
+        elif user_input.startswith("D"):
+            io.write("When to evaluate (YYYY-mm-dd HH:MM):")
+            eval_time = io.read()
+            delayed.append(prediction.changed_at("N", eval_time))
+        elif user_input.startswith("R"):
+            io.write("Evaluation rejected")
+        else:
+            status = "F"
+            fails.append(prediction.changed(status))
     not_yet = delayed
     # print total statistics
     total_done = len(fails) + len(succeeds)
