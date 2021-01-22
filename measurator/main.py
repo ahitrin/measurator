@@ -81,14 +81,13 @@ def run_main_(io: IO):
         else:
             status = "F"
             fails.append(prediction.changed(status))
-    not_yet = delayed
     # print total statistics
     total_done = len(fails) + len(succeeds)
     if total_done > 0:
         percentage = "%d%%" % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = "N/A"
-    io.write("Successful predictions:", percentage, ", not done yet:", len(not_yet))
+    io.write("Successful predictions:", percentage, ", not done yet:", len(delayed))
     # add another prediction when needed
     io.write("Add another prediction? Yes/*No*/List")
     user_input = io.read().capitalize()
@@ -100,7 +99,7 @@ def run_main_(io: IO):
         try:
             when = datetime.datetime.strptime(eval_time, TIME_FORMAT)
             if when > now:
-                not_yet.append(
+                delayed.append(
                     Prediction(["N", now.strftime(TIME_FORMAT), eval_time, text])
                 )
             else:
@@ -108,12 +107,12 @@ def run_main_(io: IO):
         except ValueError:
             io.write("Wrong time format, prediction is not saved!")
     elif user_input.startswith("L"):
-        for prediction in not_yet:
+        for prediction in delayed:
             io.write(f"{prediction.timestamp}: {prediction.text}")
     # overwrite predictions file
     with FileWriteProxy(io) as f:
         writer = csv.writer(f)
-        for prediction in sorted(fails + succeeds + not_yet, key=attrgetter("created")):
+        for prediction in sorted(fails + succeeds + delayed, key=attrgetter("created")):
             writer.writerow(prediction.as_list())
 
 
