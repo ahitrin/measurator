@@ -19,7 +19,6 @@ User input:
 Program output:
 > Successful predictions:50%, not done yet:0
 
-Program output:
 > Add another prediction? Yes/*No*/List
 
 User input:

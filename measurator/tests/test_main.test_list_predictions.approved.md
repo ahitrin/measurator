@@ -5,7 +5,6 @@ Current time is 2020-01-31 12:00.
 Program output:
 > Successful predictions:41%, not done yet:2
 
-Program output:
 > Add another prediction? Yes/*No*/List
 
 User input:
@@ -14,7 +13,6 @@ User input:
 Program output:
 > 2020-03-01 08:00: NSDPRD-13544: will 13d be enough? 90%-NO
 
-Program output:
 > 2020-03-01 08:00: NSDPRD-13544: will 26d be enough? 90%-YES
 
 File is written:

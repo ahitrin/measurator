@@ -12,7 +12,6 @@ User input:
 Program output:
 > Evaluation rejected
 
-Program output:
 > Time to evaluate: NSDPRD-13544: will 26d be enough? 90%-YES
  Is it true? (Delay/Reject/Yes/*No*)
 
@@ -22,10 +21,8 @@ User input:
 Program output:
 > Evaluation rejected
 
-Program output:
 > Successful predictions:41%, not done yet:0
 
-Program output:
 > Add another prediction? Yes/*No*/List
 
 User input:

@@ -40,9 +40,13 @@ class DummyIO(IO):
 def _generate_report(io: DummyIO):
     text: List[str] = []
     report_part: str = ""
+    last_event: str = ""
     for event_type, event_content in io.log:
         if "write" == event_type:
-            report_part = f"Program output:\n> {event_content}"
+            if last_event == event_type:
+                report_part = f"> {event_content}"
+            else:
+                report_part = f"Program output:\n> {event_content}"
         elif "read" == event_type:
             report_part = f"User input:\n> {event_content}"
         elif "write_file" == event_type:
@@ -52,6 +56,7 @@ def _generate_report(io: DummyIO):
         elif "time" == event_type:
             report_part = f"Current time is {event_content}."
         text.append(report_part)
+        last_event = event_type
     return "\n\n".join(text)
 
 
