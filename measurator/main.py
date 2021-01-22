@@ -3,7 +3,8 @@ import csv
 import datetime
 import time
 from contextlib import ContextDecorator
-from operator import itemgetter
+from operator import attrgetter
+from typing import List, Tuple
 
 from measurator.console import ConsoleIO
 from measurator.domain import IO
@@ -35,30 +36,48 @@ class FileWriteProxy(ContextDecorator):
         self.io.write_file(self.cache)
 
 
+class Prediction:
+    def __init__(self, row):
+        self.status, self.created, self.timestamp, self.text = row
+
+    def changed(self, status):
+        return Prediction([status, self.created, self.timestamp, self.text])
+
+    def changed_at(self, status, timestamp):
+        return Prediction([status, self.created, timestamp, self.text])
+
+    def as_list(self):
+        return [self.status, self.created, self.timestamp, "", self.text]
+
+
 def run_main_(io: IO):
     not_yet, succeeds, fails = _read_file(io)
     # evaluate measurements
     delayed = list()
     now = io.now()
-    for status, created, timestamp, text in not_yet:
-        evaluate_time = datetime.datetime(*(time.strptime(timestamp, TIME_FORMAT)[:6]))
+    for prediction in not_yet:
+        evaluate_time = datetime.datetime(
+            *(time.strptime(prediction.timestamp, TIME_FORMAT)[:6])
+        )
         if evaluate_time < now:
-            io.write(f"Time to evaluate: {text}\n Is it true? (Delay/Reject/Yes/*No*)")
+            io.write(
+                f"Time to evaluate: {prediction.text}\n Is it true? (Delay/Reject/Yes/*No*)"
+            )
             user_input = io.read().capitalize()
             if user_input.startswith("Y"):
                 status = "S"
-                succeeds.append((status, created, timestamp, text))
+                succeeds.append(prediction.changed(status))
             elif user_input.startswith("D"):
                 io.write("When to evaluate (YYYY-mm-dd HH:MM):")
                 eval_time = io.read()
-                delayed.append(("N", created, eval_time, text))
+                delayed.append(prediction.changed_at("N", eval_time))
             elif user_input.startswith("R"):
                 io.write("Evaluation rejected")
             else:
                 status = "F"
-                fails.append((status, created, timestamp, text))
+                fails.append(prediction.changed(status))
         else:
-            delayed.append((status, created, timestamp, text))
+            delayed.append(prediction)
     not_yet = delayed
     # print total statistics
     total_done = len(fails) + len(succeeds)
@@ -72,43 +91,45 @@ def run_main_(io: IO):
     user_input = io.read().capitalize()
     if user_input.startswith("Y"):
         io.write("Prediction:")
-        prediction = io.read()
+        text = io.read()
         io.write("When to evaluate (YYYY-mm-dd HH:MM):")
         eval_time = io.read()
         try:
             when = datetime.datetime.strptime(eval_time, TIME_FORMAT)
             if when > now:
-                not_yet.append(("N", now.strftime(TIME_FORMAT), eval_time, prediction))
+                not_yet.append(
+                    Prediction(["N", now.strftime(TIME_FORMAT), eval_time, text])
+                )
             else:
                 io.write("This date is in past, prediction is not saved!")
         except ValueError:
             io.write("Wrong time format, prediction is not saved!")
     elif user_input.startswith("L"):
-        for row in not_yet:
-            io.write(f"{row[2]}: {row[3]}")
+        for prediction in not_yet:
+            io.write(f"{prediction.timestamp}: {prediction.text}")
     # overwrite predictions file
     with FileWriteProxy(io) as f:
         writer = csv.writer(f)
-        for row in sorted(fails + succeeds + not_yet, key=itemgetter(1)):
-            row = list(row[0:3]) + [""] + list(row[3:])
-            writer.writerow(row)
+        for prediction in sorted(fails + succeeds + not_yet, key=attrgetter("created")):
+            writer.writerow(prediction.as_list())
 
 
-def _read_file(io: IO):
-    fails = list()
-    succeeds = list()
-    not_yet = list()
+def _read_file(io: IO) -> Tuple[List[Prediction], List[Prediction], List[Prediction]]:
+    fails: List[Prediction] = list()
+    succeeds: List[Prediction] = list()
+    not_yet: List[Prediction] = list()
     reader = csv.reader(io.read_file())
     for row in reader:
         status = row[0]
         if len(row) == 5:
             row = (row[0], row[1], row[2], row[4])
+        p = Prediction(row)
         if status == "F":
-            fails.append(row)
+            fails.append(p)
         elif status == "S":
-            succeeds.append(row)
+            succeeds.append(p)
         else:
-            not_yet.append(row)
+            not_yet.append(p)
     return not_yet, succeeds, fails
 
 
