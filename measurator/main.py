@@ -54,7 +54,8 @@ class Prediction:
 
 
 def run_main_(io: IO):
-    not_yet, succeeds, fails = _split_by_group(io)
+    raw_rows = _read_file(io)
+    not_yet, succeeds, fails = _split_by_group(raw_rows)
     # evaluate measurements
     delayed = list()
     now = io.now()
@@ -122,16 +123,14 @@ def _read_file(io: IO) -> List[Prediction]:
     for row in reader:
         p = Prediction(row)
         result.append(p)
-    return p
+    return result
 
 
-def _split_by_group(io: IO) -> Tuple[List[Prediction], List[Prediction], List[Prediction]]:
+def _split_by_group(rows: List[Prediction]) -> Tuple[List[Prediction], List[Prediction], List[Prediction]]:
     fails: List[Prediction] = list()
     succeeds: List[Prediction] = list()
     not_yet: List[Prediction] = list()
-    reader = csv.reader(io.read_file())
-    for row in reader:
-        p = Prediction(row)
+    for p in rows:
         if p.status == "F":
             fails.append(p)
         elif p.status == "S":
