@@ -9,6 +9,7 @@ pytest = "==5.3.5"
 pytest-approvaltests = "==0.1.0"
 pytest-cov = "==2.8.1"
 black = "==19.10b0"
+py = ">=1.10.0"
 
 [packages]
 
