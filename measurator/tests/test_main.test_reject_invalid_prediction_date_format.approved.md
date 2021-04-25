@@ -3,7 +3,7 @@
 Current time is 2020-04-01 12:00.
 
 Program output:
-> Successful predictions:N/A, not done yet:0
+> Successful predictions (total time): N/A, not done yet:0
 
 > Add another prediction? Yes/*No*/List
 

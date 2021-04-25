@@ -82,7 +82,7 @@ def run_main_(io: IO):
         else:
             status = "F"
             fails.append(prediction.changed(status))
-    _print_total_statistics(io, fails, succeeds, delayed)
+    _print_total_statistics(io, "total time", fails, succeeds, delayed)
     # add another prediction when needed
     io.write("Add another prediction? Yes/*No*/List")
     user_input = io.read().capitalize()
@@ -111,13 +111,13 @@ def run_main_(io: IO):
             writer.writerow(prediction.as_list())
 
 
-def _print_total_statistics(io, fails, succeeds, delayed):
+def _print_total_statistics(io, label, fails, succeeds, delayed):
     total_done = len(fails) + len(succeeds)
     if total_done > 0:
         percentage = "%d%%" % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = "N/A"
-    io.write("Successful predictions:", percentage, ", not done yet:", len(delayed))
+    io.write("Successful predictions (", label, "): ", percentage, ", not done yet:", len(delayed))
 
 
 def _read_file(io: IO) -> List[Prediction]:

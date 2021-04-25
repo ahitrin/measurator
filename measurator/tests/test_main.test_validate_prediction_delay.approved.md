@@ -29,7 +29,7 @@ User input:
 > 2020-05-01 12:00
 
 Program output:
-> Successful predictions:41%, not done yet:2
+> Successful predictions (total time): 41%, not done yet:2
 
 > Add another prediction? Yes/*No*/List
 

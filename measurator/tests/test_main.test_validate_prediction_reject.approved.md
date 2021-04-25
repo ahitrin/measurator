@@ -21,7 +21,7 @@ User input:
 Program output:
 > Evaluation rejected
 
-> Successful predictions:41%, not done yet:0
+> Successful predictions (total time): 41%, not done yet:0
 
 > Add another prediction? Yes/*No*/List
 
