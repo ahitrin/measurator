@@ -83,6 +83,8 @@ def run_main_(io: IO):
             status = "F"
             fails.append(prediction.changed(status))
     _print_total_statistics(io, "total time", fails, succeeds, delayed)
+    if len(raw_rows) > 1:
+        _print_total_statistics(io, "total time", fails, succeeds, delayed)
     # add another prediction when needed
     io.write("Add another prediction? Yes/*No*/List")
     user_input = io.read().capitalize()

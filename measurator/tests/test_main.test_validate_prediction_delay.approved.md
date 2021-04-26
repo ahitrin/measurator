@@ -31,6 +31,8 @@ User input:
 Program output:
 > Successful predictions (total time): 41%, not done yet:2
 
+> Successful predictions (total time): 41%, not done yet:2
+
 > Add another prediction? Yes/*No*/List
 
 User input:
