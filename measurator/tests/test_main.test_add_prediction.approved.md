@@ -5,7 +5,7 @@ Current time is 2020-01-31 12:00.
 Program output:
 > Successful predictions (total time): 41%, not done yet:2
 
-> Successful predictions (half time): 41%, not done yet:2
+> Successful predictions (half time): 42%, not done yet:2
 
 > Add another prediction? Yes/*No*/List
 

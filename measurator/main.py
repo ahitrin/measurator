@@ -83,7 +83,11 @@ def run_main_(io: IO):
             fails.append(prediction.changed(status))
     _print_total_statistics(io, "total time", fails, succeeds, delayed)
     if len(raw_rows) > 1:
-        _print_total_statistics(io, "half time", fails, succeeds, delayed)
+        half_time = raw_rows[int(len(raw_rows) / 2)].timestamp
+        fails_2 = [p for p in fails if p.timestamp >= half_time]
+        succeeds_2 = [p for p in succeeds if p.timestamp >= half_time]
+        delayed_2 = [p for p in delayed if p.timestamp >= half_time]
+        _print_total_statistics(io, "half time", fails_2, succeeds_2, delayed_2)
     # add another prediction when needed
     io.write("Add another prediction? Yes/*No*/List")
     user_input = io.read().capitalize()
