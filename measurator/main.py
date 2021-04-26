@@ -56,16 +56,15 @@ class Prediction:
 def run_main_(io: IO):
     raw_rows = _read_file(io)
     not_yet, succeeds, fails = _split_by_group(raw_rows)
-    # evaluate measurements
-    delayed = list()
     now = io.now()
-    for prediction in not_yet:
-        evaluate_time = datetime.datetime(
-            *(time.strptime(prediction.timestamp, TIME_FORMAT)[:6])
-        )
-        if evaluate_time >= now:
-            delayed.append(prediction)
-            continue
+    delayed = [
+        p
+        for p in not_yet
+        if datetime.datetime(*(time.strptime(p.timestamp, TIME_FORMAT)[:6])) > now
+    ]
+    # evaluate measurements
+    to_evaluate = [p for p in not_yet if p not in delayed]
+    for prediction in to_evaluate:
         io.write(
             f"Time to evaluate: {prediction.text}\n Is it true? (Delay/Reject/Yes/*No*)"
         )
