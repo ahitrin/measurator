@@ -84,7 +84,7 @@ def run_main_(io: IO):
             fails.append(prediction.changed(status))
     _print_total_statistics(io, "total time", fails, succeeds, delayed)
     if len(raw_rows) > 1:
-        _print_total_statistics(io, "total time", fails, succeeds, delayed)
+        _print_total_statistics(io, "half time", fails, succeeds, delayed)
     # add another prediction when needed
     io.write("Add another prediction? Yes/*No*/List")
     user_input = io.read().capitalize()
@@ -119,7 +119,14 @@ def _print_total_statistics(io, label, fails, succeeds, delayed):
         percentage = "%d%%" % (float(100 * len(succeeds)) / float(total_done))
     else:
         percentage = "N/A"
-    io.write("Successful predictions (", label, "): ", percentage, ", not done yet:", len(delayed))
+    io.write(
+        "Successful predictions (",
+        label,
+        "): ",
+        percentage,
+        ", not done yet:",
+        len(delayed),
+    )
 
 
 def _read_file(io: IO) -> List[Prediction]:
@@ -131,7 +138,9 @@ def _read_file(io: IO) -> List[Prediction]:
     return result
 
 
-def _split_by_group(rows: List[Prediction]) -> Tuple[List[Prediction], List[Prediction], List[Prediction]]:
+def _split_by_group(
+    rows: List[Prediction],
+) -> Tuple[List[Prediction], List[Prediction], List[Prediction]]:
     fails: List[Prediction] = list()
     succeeds: List[Prediction] = list()
     not_yet: List[Prediction] = list()
