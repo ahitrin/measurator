@@ -52,7 +52,8 @@ def _generate_report(io: DummyIO):
         elif "write_file" == event_type:
             report_part = f"File is written:\n```\n{event_content}\n```"
         elif "read_file" == event_type:
-            report_part = "(READ FILE)"
+            content = "".join(io.file_content)
+            report_part = f"Read file:\n```\n{content}```"
         elif "time" == event_type:
             report_part = f"Current time is {event_content}."
         text.append(report_part)
