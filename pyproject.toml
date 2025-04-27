@@ -11,6 +11,9 @@ requires-python = ">=3.11"
 dependencies = [
 ]
 
+[project.scripts]
+measure = "measurator.main:run_main"
+
 [tool.poetry]
 
 [tool.poetry.group.dev.dependencies]
