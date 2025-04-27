@@ -1,6 +1,6 @@
 [project]
 name = "measurator"
-version = "0.4"
+version = "0.4.1"
 description = "Simple command-line app aimed to record and evaluate measures"
 authors = [
     {name = "Andrey Hitrin",email = "andrey.hitrin@gmail.com"}
