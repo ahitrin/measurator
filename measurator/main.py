@@ -12,10 +12,6 @@ from measurator.domain import IO
 TIME_FORMAT = "%Y-%m-%d %H:%M"
 
 
-def migrate():
-    pass
-
-
 def run_main():
     args = _process_args()
     run_main_(ConsoleIO(args))
