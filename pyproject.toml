@@ -1,0 +1,26 @@
+[project]
+name = "measurator"
+version = "0.4"
+description = "Simple command-line app aimed to record and evaluate measures"
+authors = [
+    {name = "Andrey Hitrin",email = "andrey.hitrin@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+]
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+approvaltests = "0.2.10"
+pytest = "5.3.5"
+pytest-cov = "2.8.1"
+pytest-approvaltests = "0.1.0"
+black = "24.3.0"
+py = "1.10.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
